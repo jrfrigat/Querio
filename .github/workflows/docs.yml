@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Setup .NET (8 / 9 / 10)
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             8.0.x
@@ -55,7 +55,7 @@ jobs:
         run: docfx docfx.json
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
@@ -69,4 +69,4 @@ jobs:
     steps:
       - name: Deploy
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
