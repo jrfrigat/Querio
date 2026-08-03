@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Querio">
+  <title>Querio</title>
+  <desc>A magnifier drawn as a Q over three rows of data, with a branch leaving the ring - one query, many targets.</desc>
+
+  <defs>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5EEAD4"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="256" height="256" rx="56" fill="#0E1729"/>
+
+  <!-- The rows are the data being asked about. They stop where the ring passes over them, so the
+       lens reads as sitting on top of the table rather than beside it. -->
+  <g fill="#1E3A5F">
+    <rect x="44" y="70"  width="66" height="14" rx="7"/>
+    <rect x="44" y="118" width="52" height="14" rx="7"/>
+    <rect x="44" y="166" width="72" height="14" rx="7"/>
+  </g>
+
+  <!-- The Q: a magnifier whose tail is also the letter's stroke. -->
+  <circle cx="132" cy="120" r="60" fill="none" stroke="url(#ring)" stroke-width="18"/>
+  <path d="M150 138 L206 194" stroke="url(#ring)" stroke-width="22" stroke-linecap="round" fill="none"/>
+
+  <!-- One query leaving for several targets: the fork that the whole product is about. -->
+  <g stroke="#5EEAD4" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.95">
+    <path d="M186 62 L212 62"/>
+    <path d="M186 62 L212 36"/>
+    <path d="M186 62 L212 88"/>
+  </g>
+  <g fill="#5EEAD4">
+    <circle cx="216" cy="36" r="9"/>
+    <circle cx="216" cy="62" r="9"/>
+    <circle cx="216" cy="88" r="9"/>
+  </g>
+</svg>

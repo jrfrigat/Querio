@@ -1,0 +1,24 @@
+- name: English
+  items:
+    - name: Getting started
+      href: en/getting-started.md
+    - name: Architecture
+      href: en/architecture.md
+    - name: The query language
+      href: en/query-language.md
+    - name: Targets
+      href: en/targets.md
+    - name: Working with AI agents
+      href: en/ai-agents.md
+- name: Русский
+  items:
+    - name: Быстрый старт
+      href: ru/getting-started.md
+    - name: Архитектура
+      href: ru/architecture.md
+    - name: Язык запросов
+      href: ru/query-language.md
+    - name: Цели
+      href: ru/targets.md
+    - name: Работа с ИИ-агентами
+      href: ru/ai-agents.md

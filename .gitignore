@@ -1,0 +1,31 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+artifacts/
+_site/
+api/*.yml
+api/.manifest
+TestResults/
+
+# IDE
+.vs/
+.idea/
+*.user
+*.suo
+
+# Local tooling
+nuget.offline.config
+node_modules/
+
+# AI tooling
+.claude/
+.claude-flow/
+CLAUDE.md
+.swarm/
+.mcp.json
+ruvector.db
+*.jsonl
+
+# OS
+.DS_Store
+Thumbs.db

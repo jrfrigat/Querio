@@ -1,0 +1,58 @@
+name: Bug report
+description: Something Querio does that it should not, or does not do that it should.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. The single most useful thing you can include is the schema and the
+        query - with those, the behaviour is usually reproducible in one test.
+
+  - type: input
+    id: version
+    attributes:
+      label: Querio version
+      placeholder: "0.0.1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Which package
+      multiple: true
+      options:
+        - Querio (core)
+        - Querio.Sql
+        - Querio.OneC
+        - Querio.Linq
+        - Querio.Http
+        - Querio.Text
+        - Querio.Language
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, and what you got instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Schema and query
+      description: >
+        The smallest schema and query that shows it. If a renderer produced the wrong output, paste
+        what it produced and what it should have produced.
+      render: csharp
+    validations:
+      required: true
+
+  - type: input
+    id: tfm
+    attributes:
+      label: Target framework
+      placeholder: "net10.0"

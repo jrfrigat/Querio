@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    A renderer for Querio, and nothing else: it turns a query spec into SQL text plus parameters and
+    hands both back. It opens no connection and references no database driver, so a consumer pairs it
+    with whichever client it already uses - Dapper, ADO.NET, anything that takes text and parameters.
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>$(QuerioLibTargetFrameworks)</TargetFrameworks>
+    <TargetFramework></TargetFramework>
+    <PackageId>Querio.Sql</PackageId>
+    <RootNamespace>Querio.Sql</RootNamespace>
+    <Description>Renders a Querio query into parameterized SQL. Ships dialects for SQL Server, PostgreSQL and SQLite, each declaring what it can and cannot do so an unsupported query fails loudly instead of silently answering a different question.</Description>
+    <PackageTags>query;sql;sql-builder;sqlserver;postgresql;sqlite;dotnet</PackageTags>
+    <IsTrimmable Condition="'$(TargetFramework)' != 'netstandard2.0'">true</IsTrimmable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Querio\Querio.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The init-accessor marker netstandard2.0 lacks has to be declared per assembly, since it is
+         internal. Linking the core's copy keeps one source of truth instead of a second identical file. -->
+    <Compile Include="..\Querio\Internal\IsExternalInit.cs" Link="Internal\IsExternalInit.cs" />
+  </ItemGroup>
+
+</Project>

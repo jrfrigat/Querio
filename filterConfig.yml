@@ -1,0 +1,6 @@
+# Controls which APIs appear in the generated reference.
+apiRules:
+  # Compiler-generated attribute the netstandard2.0 build needs for init accessors. It is internal
+  # in intent, but has to be public per assembly for the compiler to see it.
+  - exclude:
+      uidRegex: '^System\.Runtime\.CompilerServices\.IsExternalInit$'

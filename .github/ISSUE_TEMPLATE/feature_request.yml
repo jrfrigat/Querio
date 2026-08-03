@@ -1,0 +1,32 @@
+name: Feature request
+description: Something Querio should be able to express or render.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Querio's model is deliberately semantic rather than SQL-shaped, so the useful question is
+        usually "what does this mean?" before "what SQL should it produce?".
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to express that you cannot today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: shape
+    attributes:
+      label: What it would look like
+      description: A sketch of the API, the query text, or the rendered output.
+      render: csharp
+
+  - type: textarea
+    id: targets
+    attributes:
+      label: How each target would render it
+      description: >
+        If a target cannot express it at all, that is a fine answer - it declares the gap through
+        IQueryCapabilities and fails loudly. Saying which targets are in that position helps.

@@ -1,0 +1,72 @@
+name: Docs (docfx -> Pages)
+
+# Builds the docfx site - the API reference generated from the XML docs, plus the markdown guides -
+# and publishes it to GitHub Pages at https://jrfrigat.github.io/Querio/.
+#
+# One-time setup in the repo: Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'docs/**'
+      - 'docfx.json'
+      - 'filterConfig.yml'
+      - 'toc.yml'
+      - 'index.md'
+      - 'api/index.md'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build docfx site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup .NET (8 / 9 / 10)
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      # docfx reads the compiled assemblies and their sibling XML files rather than the source, so
+      # the build has to happen first.
+      - name: Build (Release)
+        run: dotnet build Querio.slnx -c Release
+
+      - name: Install docfx
+        run: dotnet tool install -g docfx
+
+      - name: Build site
+        run: docfx docfx.json
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy to Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

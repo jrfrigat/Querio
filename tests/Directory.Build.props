@@ -1,0 +1,16 @@
+<Project>
+  <!-- Inherit everything the repo sets, then relax what only makes sense for shipped code. -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <!--
+      Public API documentation is enforced as an error for the packages, because their XML docs are
+      the manual most callers read. A test method's name is its documentation, and demanding a
+      /// <summary> on each of several hundred of them would bury the ones that say something worth
+      saying.
+    -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <WarningsAsErrors>$(WarningsAsErrors.Replace('CS1591',''))</WarningsAsErrors>
+  </PropertyGroup>
+</Project>

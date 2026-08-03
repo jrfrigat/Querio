@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The SQL-shaped language a person writes a query in, read into a query and written back out.
+    Separate from Querio.Sql because that renders into three dialects and this one belongs to no
+    dialect at all: it names entities and fields logically, and it can navigate a foreign key, which
+    no SQL can.
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>$(QuerioLibTargetFrameworks)</TargetFrameworks>
+    <TargetFramework></TargetFramework>
+    <PackageId>Querio.Language</PackageId>
+    <RootNamespace>Querio.Language</RootNamespace>
+    <Description>Reads and writes Querio queries as SQL-shaped text, with foreign-key navigation and completion candidates for an editor. Reports every problem it finds with a position, rather than stopping at the first.</Description>
+    <PackageTags>query;sql;parser;completion;editor;dotnet</PackageTags>
+    <IsTrimmable Condition="'$(TargetFramework)' != 'netstandard2.0'">true</IsTrimmable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Querio\Querio.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Querio\Internal\IsExternalInit.cs" Link="Internal\IsExternalInit.cs" />
+  </ItemGroup>
+
+</Project>

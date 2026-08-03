@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-label="Querio - one query, every backend">
+  <title>Querio</title>
+
+  <defs>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5EEAD4"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5EEAD4"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="640" fill="#0E1729"/>
+  <rect width="1280" height="10" fill="url(#rule)"/>
+  <circle cx="1160" cy="80" r="260" fill="#2563EB" fill-opacity="0.10"/>
+  <circle cx="140" cy="600" r="200" fill="#5EEAD4" fill-opacity="0.06"/>
+
+  <g transform="translate(96,96) scale(1.05)">
+    <g fill="#1E3A5F">
+      <rect x="0"  y="34" width="66" height="14" rx="7"/>
+      <rect x="0"  y="82" width="52" height="14" rx="7"/>
+      <rect x="0" y="130" width="72" height="14" rx="7"/>
+    </g>
+    <circle cx="88" cy="84" r="60" fill="none" stroke="url(#ring)" stroke-width="18"/>
+    <path d="M106 102 L162 158" stroke="url(#ring)" stroke-width="22" stroke-linecap="round" fill="none"/>
+    <g stroke="#5EEAD4" stroke-width="9" stroke-linecap="round" fill="none">
+      <path d="M142 26 L168 26"/>
+      <path d="M142 26 L168 0"/>
+      <path d="M142 26 L168 52"/>
+    </g>
+    <g fill="#5EEAD4">
+      <circle cx="172" cy="0"  r="9"/>
+      <circle cx="172" cy="26" r="9"/>
+      <circle cx="172" cy="52" r="9"/>
+    </g>
+  </g>
+
+  <text x="340" y="196" font-family="Segoe UI, Arial, sans-serif" font-size="118" font-weight="700" fill="#FFFFFF">Querio</text>
+  <text x="346" y="252" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="400" fill="#94A3B8">Store-agnostic relational query model for .NET</text>
+
+  <text x="96" y="368" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="600" fill="#5EEAD4">Build the query once. Render it wherever it has to run.</text>
+
+  <g font-family="Consolas, Menlo, monospace" font-size="25" fill="#CBD5E1">
+    <text x="96" y="430">SQL Server  ·  PostgreSQL  ·  SQLite  ·  1C  ·  LINQ  ·  URL  ·  plain words</text>
+  </g>
+
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="25" fill="#94A3B8">
+    <text x="96" y="500">Zero dependencies  ·  netstandard2.0 - .NET 10  ·  MIT</text>
+    <text x="96" y="546">Values travel as data, so nothing is ever spliced into query text</text>
+  </g>
+
+  <text x="96" y="600" font-family="Segoe UI, Arial, sans-serif" font-size="23" fill="#475569">github.com/jrfrigat/Querio</text>
+</svg>

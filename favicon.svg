@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 256 256" role="img" aria-label="Querio">
+  <title>Querio</title>
+  <defs>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5EEAD4"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="#0E1729"/>
+  <!-- The rows are dropped at favicon size: at 16px they turn to mud and the Q has to carry it. -->
+  <circle cx="120" cy="112" r="62" fill="none" stroke="url(#ring)" stroke-width="22"/>
+  <path d="M140 132 L204 196" stroke="url(#ring)" stroke-width="26" stroke-linecap="round" fill="none"/>
+</svg>

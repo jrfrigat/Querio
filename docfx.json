@@ -1,0 +1,67 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
+  "metadata": [
+    {
+      "comment": "Read the API from the compiled assemblies and their sibling XML files. Run 'dotnet build -c Release' first, or there is nothing to read.",
+      "src": [
+        {
+          "src": "src",
+          "files": [
+            "Querio/bin/Release/net10.0/Querio.dll",
+            "Querio.Sql/bin/Release/net10.0/Querio.Sql.dll",
+            "Querio.OneC/bin/Release/net10.0/Querio.OneC.dll",
+            "Querio.Text/bin/Release/net10.0/Querio.Text.dll",
+            "Querio.Linq/bin/Release/net10.0/Querio.Linq.dll",
+            "Querio.Http/bin/Release/net10.0/Querio.Http.dll",
+            "Querio.Language/bin/Release/net10.0/Querio.Language.dll"
+          ]
+        }
+      ],
+      "dest": "api",
+      "outputFormat": "mref",
+      "filter": "filterConfig.yml",
+      "EnumSortOrder": "alphabetic",
+      "namespaceLayout": "nested",
+      "memberLayout": "separatePages"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [ "api/**.yml", "api/index.md" ]
+      },
+      {
+        "files": [ "index.md", "toc.yml" ]
+      },
+      {
+        "files": [ "**.md", "toc.yml" ],
+        "src": "docs",
+        "dest": "docs"
+      }
+    ],
+    "resource": [
+      {
+        "files": [ "favicon.svg", "assets/**" ]
+      }
+    ],
+    "output": "_site",
+    "template": [ "default", "modern" ],
+    "globalMetadata": {
+      "_appName": "Querio",
+      "_appTitle": "Querio - store-agnostic relational query model for .NET",
+      "_appFooter": "Querio - MIT licensed. Docs built with docfx.",
+      "_enableSearch": true,
+      "_appLogoPath": "favicon.svg",
+      "_appFaviconPath": "favicon.svg",
+      "_disableContribution": false,
+      "_gitContribute": {
+        "repo": "https://github.com/jrfrigat/Querio",
+        "branch": "main"
+      }
+    },
+    "sitemap": {
+      "baseUrl": "https://jrfrigat.github.io/Querio/"
+    },
+    "postProcessors": [ "ExtractSearchIndex" ]
+  }
+}

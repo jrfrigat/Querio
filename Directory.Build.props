@@ -1,0 +1,49 @@
+<Project>
+  <PropertyGroup>
+    <Authors>FrigaT</Authors>
+    <Company>FrigaT</Company>
+    <Copyright>Copyright (c) 2026 FrigaT</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/jrfrigat/Querio</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jrfrigat/Querio</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!--
+      The shipped libraries reach back to netstandard2.0 on purpose: a saved query is a contract, and
+      the thing reading it may be an old service nobody is going to retarget. Library projects set
+      <TargetFrameworks>$(QuerioLibTargetFrameworks)</TargetFrameworks> (plural) and clear the
+      inherited singular <TargetFramework> below; tests keep the single net10.0 default.
+    -->
+    <QuerioLibTargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</QuerioLibTargetFrameworks>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!--
+      Every public member is documented, and the build says so rather than trusting anyone to keep
+      it up. Querio is consumed as a package, so its XML docs are the only manual most callers read.
+    -->
+    <WarningsAsErrors>$(WarningsAsErrors);CS1591</WarningsAsErrors>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <MinVerDefaultPreReleaseIdentifiers>preview</MinVerDefaultPreReleaseIdentifiers>
+    <MinVerTagPrefix>v</MinVerTagPrefix>
+    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- MinVer + Microsoft.SourceLink.GitHub are injected into every project as
+         GlobalPackageReferences from Directory.Packages.props (Central Package Management). -->
+    <!-- Pack the project's own README when it has one; otherwise fall back to the repo README.
+         Every shipped package here carries its own, so a reader lands on the page for the package
+         they installed rather than on the umbrella one. -->
+    <None Include="README.md" Pack="true" PackagePath="/" Condition="Exists('$(MSBuildProjectDirectory)/README.md')" />
+    <None Include="$(RepoRoot)README.md" Pack="true" PackagePath="/" Condition="!Exists('$(MSBuildProjectDirectory)/README.md') And Exists('$(RepoRoot)README.md')" />
+    <None Include="$(RepoRoot)icon.png" Pack="true" PackagePath="/" Condition="Exists('$(RepoRoot)icon.png')" />
+  </ItemGroup>
+</Project>

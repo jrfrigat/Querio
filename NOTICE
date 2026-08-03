@@ -1,0 +1,9 @@
+Querio
+Copyright (c) 2026 FrigaT
+
+This product is licensed under the MIT License; see LICENSE for the full text.
+
+Querio takes no third-party runtime dependency. The shipped packages reference nothing beyond the
+.NET base class library, so there is no bundled code to attribute here. Build- and test-time tools
+(MinVer, SourceLink, xUnit, coverlet) are not distributed with the packages and keep their own
+licences.

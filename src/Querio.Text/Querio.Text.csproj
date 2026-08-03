@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Renders a query as a sentence rather than as a query. Useful for the title of a saved report, an
+    audit trail entry, or a spoken description of what somebody built in a designer. It also reads
+    such a sentence back, which is the harder half and the reason the wording is a swappable set.
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>$(QuerioLibTargetFrameworks)</TargetFrameworks>
+    <TargetFramework></TargetFramework>
+    <PackageId>Querio.Text</PackageId>
+    <RootNamespace>Querio.Text</RootNamespace>
+    <Description>Describes a Querio query in words. Turns a query specification into a readable sentence for report titles, audit entries and accessible summaries, with every connective swappable so the description can be translated.</Description>
+    <PackageTags>query;description;readable;localization;dotnet</PackageTags>
+    <IsTrimmable Condition="'$(TargetFramework)' != 'netstandard2.0'">true</IsTrimmable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Querio\Querio.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Querio\Internal\IsExternalInit.cs" Link="Internal\IsExternalInit.cs" />
+  </ItemGroup>
+
+</Project>

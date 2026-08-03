@@ -1,0 +1,35 @@
+<Project>
+
+  <!--
+    Central Package Management (CPM). Every NuGet package version used anywhere in the repo is
+    declared ONCE here; individual .csproj files reference packages WITHOUT a Version attribute
+    (CPM supplies it). To bump a dependency, edit this file only. Dependabot updates it too.
+
+    - GlobalPackageReference: injected into EVERY project automatically (build/pack tooling).
+    - PackageVersion: the version a project gets when it lists the package via <PackageReference>.
+
+    Note how short this file is. The shipped libraries take NO package dependency at all - only the
+    base class library - so everything below exists for the test projects or for packing. That is a
+    deliberate property of the product, not an accident: a query model that dragged a dependency
+    graph behind it could not be added to somebody's existing service without an argument.
+  -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <!-- Build/versioning/pack tooling needed by every project. GlobalPackageReference implies
+       PrivateAssets="all", so none of it reaches a consumer. -->
+  <ItemGroup>
+    <GlobalPackageReference Include="MinVer" Version="7.0.0" />
+    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.301" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Test stack (tests/Querio.*.Tests). -->
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
+    <PackageVersion Include="xunit.v3" Version="3.2.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+  </ItemGroup>
+
+</Project>
