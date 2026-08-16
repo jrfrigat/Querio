@@ -19,12 +19,8 @@ node_modules/
 
 # AI tooling
 .claude/
-.claude-flow/
 CLAUDE.md
-.swarm/
 .mcp.json
-ruvector.db
-*.jsonl
 
 # OS
 .DS_Store
