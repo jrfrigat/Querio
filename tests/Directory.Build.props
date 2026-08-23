@@ -3,6 +3,12 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
   <PropertyGroup>
+    <!--
+      An xUnit.net v3 test project is its own runner: it builds to an executable that hosts
+      Microsoft.Testing.Platform. Microsoft.NET.Test.Sdk used to set this implicitly; the VSTest
+      stack is gone, so the projects say it themselves.
+    -->
+    <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
     <!--
       Public API documentation is enforced as an error for the packages, because their XML docs are

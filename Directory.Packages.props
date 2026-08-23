@@ -29,12 +29,10 @@
          Microsoft.Testing.Platform applications, which global.json selects as the "dotnet test"
          runner. Under MTP a TRX report is an opt-in extension rather than a built-in logger, so it
          takes a package: without it the report flag in ci.yml is just an unknown option and CI
-         uploads no test results. Keep it on the MTP version the platform itself resolves to. -->
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+         uploads no test results. Keep it on the MTP version the platform itself resolves to.
+         Nothing here drives VSTest any more, so nothing here is a VSTest package. -->
     <PackageVersion Include="xunit.v3" Version="4.0.0" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.0" />
     <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.3.3" />
-    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
   </ItemGroup>
 
 </Project>
