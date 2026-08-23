@@ -1,0 +1,283 @@
+{
+  "From": {
+    "Entity": "requests",
+    "Alias": "r",
+    "Kind": "Entity"
+  },
+  "Joins": [
+    {
+      "Entity": "apiKeys",
+      "Alias": "a",
+      "Kind": "Inner",
+      "Relation": "request_apiKey"
+    }
+  ],
+  "Select": [],
+  "Where": {
+    "Or": false,
+    "Conditions": [
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "route"
+        },
+        "Operator": "Contains",
+        "Value": {
+          "Kind": "Literal",
+          "Value": "/api"
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "route"
+        },
+        "Operator": "StartsWith",
+        "Value": {
+          "Kind": "Literal",
+          "Value": "/v1"
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "route"
+        },
+        "Operator": "EndsWith",
+        "Value": {
+          "Kind": "Literal",
+          "Value": ".json"
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "error"
+        },
+        "Operator": "Equals",
+        "Value": {
+          "Kind": "Literal",
+          "Value": "true"
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "cacheHit"
+        },
+        "Operator": "NotEquals",
+        "Value": {
+          "Kind": "Literal",
+          "Value": "false"
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "status"
+        },
+        "Operator": "GreaterThan",
+        "Value": {
+          "Kind": "Literal",
+          "Value": "399"
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "status"
+        },
+        "Operator": "GreaterThanOrEqual",
+        "Value": {
+          "Kind": "Literal",
+          "Value": "400"
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "status"
+        },
+        "Operator": "LessThan",
+        "Value": {
+          "Kind": "Literal",
+          "Value": "600"
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "status"
+        },
+        "Operator": "LessThanOrEqual",
+        "Value": {
+          "Kind": "Literal",
+          "Value": "599"
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "durationMs"
+        },
+        "Operator": "Between",
+        "Value": {
+          "Kind": "Literal",
+          "Value": "100"
+        },
+        "Value2": {
+          "Kind": "Literal",
+          "Value": "500"
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "durationMs"
+        },
+        "Operator": "NotBetween",
+        "Value": {
+          "Kind": "Literal",
+          "Value": "0"
+        },
+        "Value2": {
+          "Kind": "Literal",
+          "Value": "10"
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "status"
+        },
+        "Operator": "In",
+        "Value": {
+          "Kind": "List",
+          "Values": [
+            "500",
+            "502",
+            "503"
+          ]
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "status"
+        },
+        "Operator": "NotIn",
+        "Value": {
+          "Kind": "List",
+          "Values": [
+            "200",
+            "204"
+          ]
+        }
+      },
+      {
+        "Field": {
+          "Alias": "a",
+          "Field": "name"
+        },
+        "Operator": "IsNull"
+      },
+      {
+        "Field": {
+          "Alias": "a",
+          "Field": "ownerId"
+        },
+        "Operator": "IsNotNull"
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "apiKeyId"
+        },
+        "Operator": "Equals",
+        "Value": {
+          "Kind": "Field",
+          "Field": {
+            "Alias": "a",
+            "Field": "id"
+          }
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "route"
+        },
+        "Operator": "Equals",
+        "Value": {
+          "Kind": "Function",
+          "Call": {
+            "Function": "upper",
+            "Arguments": [
+              {
+                "Kind": "Field",
+                "Field": {
+                  "Alias": "r",
+                  "Field": "route"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "Groups": [
+      {
+        "Or": true,
+        "Conditions": [
+          {
+            "Field": {
+              "Alias": "r",
+              "Field": "status"
+            },
+            "Operator": "Equals",
+            "Value": {
+              "Kind": "Literal",
+              "Value": "500"
+            }
+          },
+          {
+            "Field": {
+              "Alias": "r",
+              "Field": "cacheHit"
+            },
+            "Operator": "Equals",
+            "Value": {
+              "Kind": "Literal",
+              "Value": "true"
+            }
+          }
+        ],
+        "Groups": [
+          {
+            "Or": false,
+            "Conditions": [
+              {
+                "Field": {
+                  "Alias": "r",
+                  "Field": "route"
+                },
+                "Operator": "Contains",
+                "Value": {
+                  "Kind": "Literal",
+                  "Value": "/health"
+                }
+              }
+            ],
+            "Groups": [],
+            "IsEmpty": false
+          }
+        ],
+        "IsEmpty": false
+      }
+    ],
+    "IsEmpty": false
+  },
+  "GroupBy": [],
+  "OrderBy": [],
+  "Distinct": false
+}

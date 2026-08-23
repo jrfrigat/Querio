@@ -1,0 +1,127 @@
+{
+  "From": {
+    "Alias": "au",
+    "Kind": "Function",
+    "Call": {
+      "Function": "activeUsers",
+      "Arguments": [
+        {
+          "Kind": "Relative",
+          "Relative": {
+            "Amount": -90,
+            "Unit": "Day"
+          }
+        }
+      ]
+    }
+  },
+  "Joins": [
+    {
+      "Alias": "au2",
+      "Kind": "Left",
+      "Call": {
+        "Function": "activeUsers",
+        "Arguments": [
+          {
+            "Kind": "Literal",
+            "Value": "2026-01-01T00:00:00Z"
+          }
+        ]
+      },
+      "On": [
+        {
+          "Left": {
+            "Alias": "au",
+            "Field": "id"
+          },
+          "Right": {
+            "Alias": "au2",
+            "Field": "id"
+          }
+        }
+      ]
+    }
+  ],
+  "Select": [
+    {
+      "Call": {
+        "Function": "upper",
+        "Arguments": [
+          {
+            "Kind": "Field",
+            "Field": {
+              "Alias": "au",
+              "Field": "name"
+            }
+          }
+        ]
+      },
+      "Distinct": false,
+      "Alias": "shout"
+    },
+    {
+      "Call": {
+        "Function": "calcTax",
+        "Arguments": [
+          {
+            "Kind": "Function",
+            "Call": {
+              "Function": "calcTax",
+              "Arguments": [
+                {
+                  "Kind": "Field",
+                  "Field": {
+                    "Alias": "au",
+                    "Field": "id"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "Kind": "Literal",
+            "Value": "0.2"
+          }
+        ]
+      },
+      "Aggregate": "Sum",
+      "Distinct": false,
+      "Alias": "tax"
+    }
+  ],
+  "GroupBy": [
+    {
+      "Call": {
+        "Function": "upper",
+        "Arguments": [
+          {
+            "Kind": "Field",
+            "Field": {
+              "Alias": "au",
+              "Field": "name"
+            }
+          }
+        ]
+      },
+      "Alias": "shout"
+    }
+  ],
+  "OrderBy": [
+    {
+      "Call": {
+        "Function": "upper",
+        "Arguments": [
+          {
+            "Kind": "Field",
+            "Field": {
+              "Alias": "au",
+              "Field": "name"
+            }
+          }
+        ]
+      },
+      "Direction": "Ascending"
+    }
+  ],
+  "Distinct": false
+}

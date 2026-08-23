@@ -1,0 +1,105 @@
+{
+  "From": {
+    "Entity": "requests",
+    "Alias": "r",
+    "Kind": "Entity"
+  },
+  "Joins": [],
+  "Select": [
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "timestamp"
+      },
+      "Distinct": false,
+      "Truncate": "Day",
+      "Alias": "day"
+    },
+    {
+      "Aggregate": "Count",
+      "Distinct": false,
+      "Alias": "total"
+    }
+  ],
+  "GroupBy": [
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "timestamp"
+      },
+      "Truncate": "Minute",
+      "Alias": "minute"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "timestamp"
+      },
+      "Truncate": "Hour",
+      "Alias": "hour"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "timestamp"
+      },
+      "Truncate": "Day",
+      "Alias": "day"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "timestamp"
+      },
+      "Truncate": "Week",
+      "Alias": "week"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "timestamp"
+      },
+      "Truncate": "Month",
+      "Alias": "month"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "timestamp"
+      },
+      "Truncate": "Quarter",
+      "Alias": "quarter"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "timestamp"
+      },
+      "Truncate": "Year",
+      "Alias": "year"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "route"
+      }
+    }
+  ],
+  "Having": {
+    "Or": false,
+    "Conditions": [
+      {
+        "Operator": "GreaterThan",
+        "Select": "total",
+        "Value": {
+          "Kind": "Literal",
+          "Value": "10"
+        }
+      }
+    ],
+    "Groups": [],
+    "IsEmpty": false
+  },
+  "OrderBy": [],
+  "Distinct": false
+}

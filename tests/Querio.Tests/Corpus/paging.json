@@ -1,0 +1,46 @@
+{
+  "From": {
+    "Entity": "requests",
+    "Alias": "r",
+    "Kind": "Entity"
+  },
+  "Joins": [],
+  "Select": [
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "route"
+      },
+      "Distinct": false
+    },
+    {
+      "Aggregate": "Count",
+      "Distinct": false,
+      "Alias": "total"
+    }
+  ],
+  "GroupBy": [
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "route"
+      }
+    }
+  ],
+  "OrderBy": [
+    {
+      "Select": "total",
+      "Direction": "Descending"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "route"
+      },
+      "Direction": "Ascending"
+    }
+  ],
+  "Distinct": true,
+  "Limit": 50,
+  "Offset": 100
+}

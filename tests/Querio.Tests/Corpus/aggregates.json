@@ -1,0 +1,82 @@
+{
+  "From": {
+    "Entity": "requests",
+    "Alias": "r",
+    "Kind": "Entity"
+  },
+  "Joins": [],
+  "Select": [
+    {
+      "Aggregate": "Count",
+      "Distinct": false,
+      "Alias": "total"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "id"
+      },
+      "Aggregate": "Count",
+      "Distinct": false,
+      "Alias": "ids"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "apiKeyId"
+      },
+      "Aggregate": "Count",
+      "Distinct": true,
+      "Alias": "keys"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "durationMs"
+      },
+      "Aggregate": "Sum",
+      "Distinct": false,
+      "Alias": "totalMs"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "durationMs"
+      },
+      "Aggregate": "Avg",
+      "Distinct": false,
+      "Alias": "meanMs"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "durationMs"
+      },
+      "Aggregate": "Min",
+      "Distinct": false,
+      "Alias": "fastest"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "durationMs"
+      },
+      "Aggregate": "Max",
+      "Distinct": false,
+      "Alias": "slowest"
+    },
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "durationMs"
+      },
+      "Aggregate": "Percentile",
+      "Distinct": false,
+      "Percentile": 0.95,
+      "Alias": "p95"
+    }
+  ],
+  "GroupBy": [],
+  "OrderBy": [],
+  "Distinct": false
+}

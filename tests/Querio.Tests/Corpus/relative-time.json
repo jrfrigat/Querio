@@ -1,0 +1,152 @@
+{
+  "From": {
+    "Entity": "requests",
+    "Alias": "r",
+    "Kind": "Entity"
+  },
+  "Joins": [],
+  "Select": [],
+  "Where": {
+    "Or": false,
+    "Conditions": [
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "timestamp"
+        },
+        "Operator": "GreaterThanOrEqual",
+        "Value": {
+          "Kind": "Relative",
+          "Relative": {
+            "Amount": -15,
+            "Unit": "Minute"
+          }
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "timestamp"
+        },
+        "Operator": "GreaterThanOrEqual",
+        "Value": {
+          "Kind": "Relative",
+          "Relative": {
+            "Amount": -6,
+            "Unit": "Hour"
+          }
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "timestamp"
+        },
+        "Operator": "GreaterThanOrEqual",
+        "Value": {
+          "Kind": "Relative",
+          "Relative": {
+            "Amount": -30,
+            "Unit": "Day"
+          }
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "timestamp"
+        },
+        "Operator": "GreaterThanOrEqual",
+        "Value": {
+          "Kind": "Relative",
+          "Relative": {
+            "Amount": -2,
+            "Unit": "Week"
+          }
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "timestamp"
+        },
+        "Operator": "GreaterThanOrEqual",
+        "Value": {
+          "Kind": "Relative",
+          "Relative": {
+            "Amount": -3,
+            "Unit": "Month"
+          }
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "timestamp"
+        },
+        "Operator": "GreaterThanOrEqual",
+        "Value": {
+          "Kind": "Relative",
+          "Relative": {
+            "Amount": -1,
+            "Unit": "Quarter"
+          }
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "timestamp"
+        },
+        "Operator": "GreaterThanOrEqual",
+        "Value": {
+          "Kind": "Relative",
+          "Relative": {
+            "Amount": -1,
+            "Unit": "Year"
+          }
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "timestamp"
+        },
+        "Operator": "LessThan",
+        "Value": {
+          "Kind": "Relative",
+          "Relative": {
+            "Amount": 7,
+            "Unit": "Day"
+          }
+        }
+      },
+      {
+        "Field": {
+          "Alias": "r",
+          "Field": "timestamp"
+        },
+        "Operator": "Between",
+        "Value": {
+          "Kind": "Relative",
+          "Relative": {
+            "Amount": -1,
+            "Unit": "Day"
+          }
+        },
+        "Value2": {
+          "Kind": "Relative",
+          "Relative": {
+            "Amount": 1,
+            "Unit": "Day"
+          }
+        }
+      }
+    ],
+    "Groups": [],
+    "IsEmpty": false
+  },
+  "GroupBy": [],
+  "OrderBy": [],
+  "Distinct": false
+}

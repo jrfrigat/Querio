@@ -1,0 +1,12 @@
+{
+  "From": {
+    "Entity": "requests",
+    "Alias": "r",
+    "Kind": "Entity"
+  },
+  "Joins": [],
+  "Select": [],
+  "GroupBy": [],
+  "OrderBy": [],
+  "Distinct": false
+}

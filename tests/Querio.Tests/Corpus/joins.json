@@ -1,0 +1,70 @@
+{
+  "From": {
+    "Entity": "requests",
+    "Alias": "r",
+    "Kind": "Entity"
+  },
+  "Joins": [
+    {
+      "Entity": "apiKeys",
+      "Alias": "a",
+      "Kind": "Inner",
+      "Relation": "request_apiKey"
+    },
+    {
+      "Entity": "users",
+      "Alias": "u",
+      "Kind": "Left",
+      "Relation": "apiKey_owner",
+      "From": "a"
+    },
+    {
+      "Entity": "users",
+      "Alias": "m",
+      "Kind": "Right",
+      "Relation": "user_manager",
+      "From": "u"
+    },
+    {
+      "Entity": "orders",
+      "Alias": "o",
+      "Kind": "Full",
+      "On": [
+        {
+          "Left": {
+            "Alias": "r",
+            "Field": "apiKeyId"
+          },
+          "Right": {
+            "Alias": "o",
+            "Field": "tenantId"
+          }
+        }
+      ]
+    },
+    {
+      "Entity": "transfers",
+      "Alias": "t",
+      "Kind": "Cross"
+    },
+    {
+      "Entity": "orderLines",
+      "Alias": "ol",
+      "Kind": "Inner",
+      "Relation": "order_lines",
+      "From": "o"
+    }
+  ],
+  "Select": [
+    {
+      "Field": {
+        "Alias": "r",
+        "Field": "route"
+      },
+      "Distinct": false
+    }
+  ],
+  "GroupBy": [],
+  "OrderBy": [],
+  "Distinct": false
+}
