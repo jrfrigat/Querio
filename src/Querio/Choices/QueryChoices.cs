@@ -173,10 +173,21 @@ public sealed class QueryChoices
 
     /// <summary>The periods a moment may be collapsed to, or none when the target cannot do it.</summary>
     public IReadOnlyList<QueryDateTruncation> Periods
-        => Capabilities.Supports(QueryFeature.DateTruncation)
-            ? (IReadOnlyList<QueryDateTruncation>)
-                [.. Enum.GetValues(typeof(QueryDateTruncation)).Cast<QueryDateTruncation>()]
-            : [];
+    {
+        get
+        {
+            if (!Capabilities.Supports(QueryFeature.DateTruncation)) return [];
+
+            var periods = Enum.GetValues(typeof(QueryDateTruncation)).Cast<QueryDateTruncation>();
+            // An engine can have a month and no quarter, so the coarse flag is not the last word.
+            if (Capabilities is IQueryPeriodCapabilities detail)
+            {
+                periods = periods.Where(detail.SupportsPeriod);
+            }
+
+            return periods.ToList();
+        }
+    }
 
     /// <summary>Whether rows themselves may be counted, which needs no field to count.</summary>
     public bool CountsRows => Capabilities.Supports(QueryFeature.Aggregates);
@@ -275,7 +286,16 @@ public sealed class QueryChoices
         if (found is null) return [];
 
         var kinds = new List<QueryOperandKind> { QueryOperandKind.Literal };
-        if (Capabilities.Supports(QueryFeature.SetOperators)) kinds.Add(QueryOperandKind.List);
+        // A set is only worth offering where some operator offered for this field would consume one.
+        // The target supporting set operators is not enough: a moment takes ranges rather than a list
+        // of exact timestamps, so a date field offers none, and offering the editor anyway would put
+        // a value in the designer's hand that no operator could accept.
+        if (Capabilities.Supports(QueryFeature.SetOperators)
+            && found.Operators.Any(offered => QueryDefaults.TakesValueList(offered.Operator)))
+        {
+            kinds.Add(QueryOperandKind.List);
+        }
+
         if (Capabilities.Supports(QueryFeature.FieldComparison)) kinds.Add(QueryOperandKind.Field);
         // Only a moment can be offset from now; offering it elsewhere would mean nothing.
         if (found.Type == QueryFieldType.DateTime && Capabilities.Supports(QueryFeature.RelativeTime))
@@ -381,8 +401,17 @@ public sealed class QueryChoices
     private IReadOnlyList<QueryAggregate> Narrow(IReadOnlyList<QueryAggregate> aggregates)
     {
         if (!Capabilities.Supports(QueryFeature.Aggregates)) return [];
-        if (Capabilities.Supports(QueryFeature.Percentile)) return aggregates;
-        return aggregates.Where(aggregate => aggregate != QueryAggregate.Percentile).ToList();
+
+        var kept = Capabilities.Supports(QueryFeature.Percentile)
+            ? aggregates
+            : aggregates.Where(aggregate => aggregate != QueryAggregate.Percentile).ToList();
+
+        // A target may support an aggregate only in a query of a particular shape, and the query as
+        // it stands is the only place that shape is known.
+        if (Capabilities is not IQueryAggregateCapabilities detail) return kept;
+
+        var grouped = _spec.GroupBy.Count > 0;
+        return kept.Where(aggregate => detail.SupportsAggregate(aggregate, grouped)).ToList();
     }
 
     private bool Allows(QueryJoinKind kind) => kind switch

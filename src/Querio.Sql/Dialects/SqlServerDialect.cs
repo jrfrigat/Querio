@@ -8,13 +8,23 @@ namespace Querio.Sql;
 /// involved, and its percentile is a window function rather than an aggregate, so it cannot be
 /// combined with grouping.
 /// </summary>
-public sealed class SqlServerDialect : SqlDialect
+public sealed class SqlServerDialect : SqlDialect, IQueryAggregateCapabilities
 {
     /// <summary>A ready-to-use instance; the dialect holds no state.</summary>
     public static SqlServerDialect Instance { get; } = new();
 
     /// <inheritdoc/>
     public override string Name => "SQL Server";
+
+    /// <summary>
+    /// Everything, except a percentile in a query that groups: <c>PERCENTILE_CONT</c> is a window
+    /// function here, and one statement cannot both window and group. Declared so a builder offers
+    /// the percentile in the query that can run it and withdraws it in the one that cannot.
+    /// </summary>
+    /// <param name="aggregate">The aggregate being asked about.</param>
+    /// <param name="grouped">Whether the query collapses rows into groups.</param>
+    public bool SupportsAggregate(QueryAggregate aggregate, bool grouped)
+        => aggregate != QueryAggregate.Percentile || !grouped;
 
     /// <inheritdoc/>
     protected override IQueryCapabilities Capabilities { get; } = QueryCapabilities.All;

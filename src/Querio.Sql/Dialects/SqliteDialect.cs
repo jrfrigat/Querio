@@ -11,13 +11,20 @@ namespace Querio.Sql;
 /// that is the common case now; pair an older engine with a capability set that removes them.
 /// </para>
 /// </summary>
-public sealed class SqliteDialect : SqlDialect
+public sealed class SqliteDialect : SqlDialect, IQueryPeriodCapabilities
 {
     /// <summary>A ready-to-use instance; the dialect holds no state.</summary>
     public static SqliteDialect Instance { get; } = new();
 
     /// <inheritdoc/>
     public override string Name => "SQLite";
+
+    /// <summary>
+    /// Every period but the quarter, which <see cref="TruncateDate"/> refuses. Declared so a builder
+    /// never offers it: the alternative is the user picking a quarter and finding out at render time.
+    /// </summary>
+    /// <param name="period">The period being asked about.</param>
+    public bool SupportsPeriod(QueryDateTruncation period) => period != QueryDateTruncation.Quarter;
 
     /// <inheritdoc/>
     protected override IQueryCapabilities Capabilities { get; }

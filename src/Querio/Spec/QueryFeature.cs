@@ -84,6 +84,39 @@ public interface IQueryCapabilities
     bool Supports(QueryFeature feature);
 }
 
+/// <summary>
+/// A refinement for a target that collapses a moment to some periods but not all of them.
+/// <para>
+/// <see cref="QueryFeature.DateTruncation"/> is deliberately coarse - it is the flag a designer greys
+/// a whole control out by - but an engine can perfectly well have a month and no quarter. Without
+/// this the flag promises more than the renderer delivers, and the gap is discovered as a render
+/// error after somebody picked the period. A target implements this alongside
+/// <see cref="IQueryCapabilities"/>; <see cref="QueryChoices"/> then offers only what it confirms.
+/// </para>
+/// </summary>
+public interface IQueryPeriodCapabilities
+{
+    /// <summary>Whether a moment can be collapsed to the start of this period.</summary>
+    /// <param name="period">The period being asked about.</param>
+    bool SupportsPeriod(QueryDateTruncation period);
+}
+
+/// <summary>
+/// A refinement for a target whose support for an aggregate depends on whether the query groups.
+/// <para>
+/// Some engines compute a percentile only as a window function, which cannot be combined with a
+/// GROUP BY in one statement - so the aggregate is available, but not everywhere. Declaring it
+/// unconditionally would let a builder offer it in exactly the query that cannot run.
+/// </para>
+/// </summary>
+public interface IQueryAggregateCapabilities
+{
+    /// <summary>Whether the aggregate can be computed in a query that does or does not group.</summary>
+    /// <param name="aggregate">The aggregate being asked about.</param>
+    /// <param name="grouped">Whether the query collapses rows into groups.</param>
+    bool SupportsAggregate(QueryAggregate aggregate, bool grouped);
+}
+
 /// <summary>A capability set built from an explicit list of features.</summary>
 public sealed class QueryCapabilities : IQueryCapabilities
 {
