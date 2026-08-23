@@ -67,6 +67,48 @@ jobs:
           name: nuget-packages
           path: artifacts/*.nupkg
 
+  # Text that reads correctly can still be rejected by a server, or accepted and mean something else.
+  # These render the query and then run it, asserting the rows. Their own job because pulling a SQL
+  # Server image costs more than everything above put together, and the fast signal should not wait
+  # for it; the SQLite half of the same suite already ran up there, where it needs no container.
+  integration:
+    name: Run the SQL against real engines
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # MinVer needs full history/tags to compute the version
+
+      - name: Setup .NET (8 / 9 / 10)
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Restore
+        run: dotnet restore Querio.slnx
+
+      - name: Build (Release)
+        run: dotnet build Querio.slnx -c Release --no-restore
+
+      # QUERIO_INTEGRATION is what turns the containers on; without it the same suite runs SQLite
+      # only, which is how it stays quick on a developer machine with no Docker.
+      - name: Test against SQL Server, PostgreSQL and SQLite
+        env:
+          QUERIO_INTEGRATION: '1'
+        run: dotnet test --project tests/Querio.Sql.IntegrationTests -c Release --no-build --report-trx
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: integration-test-results
+          path: '**/*.trx'
+          if-no-files-found: ignore
+
   # The icon is generated from assets/logo.svg rather than committed blind. If the two drift, the
   # package ships a mark nobody drew - so the drift is caught here instead of on nuget.org.
   icon-is-current:
