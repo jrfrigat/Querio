@@ -60,6 +60,29 @@ public sealed class QuerioIndependenceTests
             + "an existing application without dragging anything in behind them.");
     }
 
+    /// <summary>
+    /// The same rule stated the way the mandate states it. The list above names the specific
+    /// temptations and says why each one is refused, which is worth keeping for the error message it
+    /// produces - but a deny-list only refuses what somebody thought to write down, and "no
+    /// dependencies" is a claim about everything else too. A reference to a package nobody predicted
+    /// would pass that test and fail this one.
+    /// </summary>
+    [Theory]
+    [MemberData(nameof(ShippedAssemblies))]
+    public void EveryPackageReferencesNothingButTheBaseClassLibraryAndQuerio(string assemblyName)
+    {
+        var strangers = Load(assemblyName).GetReferencedAssemblies()
+            .Select(reference => reference.Name ?? string.Empty)
+            .Where(name => !IsBaseClassLibrary(name) && !IsQuerio(name))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+        Assert.True(strangers.Length == 0,
+            $"{assemblyName} references {string.Join(", ", strangers)}, which is neither the base class "
+            + "library nor Querio. Adding a dependency to a shipped package is a product decision: it "
+            + "is the property that lets Querio be dropped into something that already exists.");
+    }
+
     [Theory]
     [MemberData(nameof(ShippedAssemblies))]
     public void EveryPackageClaimsOnlyItsOwnNamespace(string assemblyName)
@@ -89,6 +112,18 @@ public sealed class QuerioIndependenceTests
         Assert.True(File.Exists(documentation),
             $"Expected generated XML documentation next to {assembly.Location}.");
     }
+
+    // The reference assemblies a library gets for free on every target it builds for. netstandard2.0
+    // resolves through the netstandard facade; net8 and later through System.*.
+    private static bool IsBaseClassLibrary(string assemblyName)
+        => assemblyName.Equals("netstandard", StringComparison.OrdinalIgnoreCase)
+            || assemblyName.Equals("mscorlib", StringComparison.OrdinalIgnoreCase)
+            || assemblyName.Equals("System", StringComparison.OrdinalIgnoreCase)
+            || assemblyName.StartsWith("System.", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsQuerio(string assemblyName)
+        => assemblyName.Equals("Querio", StringComparison.OrdinalIgnoreCase)
+            || assemblyName.StartsWith("Querio.", StringComparison.OrdinalIgnoreCase);
 
     private static bool IsForbidden(string assemblyName)
         => ForbiddenPrefixes.Any(prefix =>
