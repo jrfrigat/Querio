@@ -7,7 +7,14 @@ namespace Querio;
 /// database, a document store or an HTTP API.
 /// <para>
 /// It is designed to be serialized and kept. Consumers persist saved reports as JSON, so treat the
-/// shape as a data contract: adding optional members is safe, repurposing existing ones is not.
+/// shape as a data contract: adding optional members is safe, repurposing existing ones is not. A
+/// member this build does not recognise is ignored rather than fatal, which is what makes adding one
+/// safe; a reader that would rather refuse can say so through its own serializer options.
+/// </para>
+/// <para>
+/// Write enums by name - a stored query holding <c>2</c> for an operator changes meaning the day a
+/// value is inserted into the middle of the enum. Publishing trimmed needs one extra setting, for a
+/// reason that belongs to the .NET SDK rather than to Querio: see <c>docs/trimming.md</c>.
 /// </para>
 /// <para>
 /// Beware that the collection members compare by reference under the synthesized record equality, so

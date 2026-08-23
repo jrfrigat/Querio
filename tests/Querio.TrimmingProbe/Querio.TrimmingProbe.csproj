@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <!--
+      The whole point of this project is to be published trimmed, so the trimmer settings live here
+      rather than on a command line somebody has to remember. The runtime identifier is passed at
+      publish time instead, so the same project proves the point on whichever platform CI runs.
+    -->
+    <PublishTrimmed>true</PublishTrimmed>
+    <!-- SelfContained is passed at publish time, not set here: trimming needs it, a plain build does
+         not, and setting it without a runtime identifier fails the ordinary solution build. -->
+    <TrimMode>full</TrimMode>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <!--
+      PublishTrimmed turns System.Text.Json's reflection path OFF by default, which is a separate
+      thing from the trimmer removing metadata: without this switch the serializer refuses before it
+      ever looks at a type. A consumer publishing trimmed has to set this too, or use the source
+      generator - and this probe proves BOTH routes work, because both are routes consumers take.
+      Documented for them in docs/trimming.md.
+    -->
+    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+    <!--
+      IL2026/IL3050: System.Text.Json's reflection-based path is not statically analysable, and the
+      analyser is right that it cannot see how the model is reached. Querio answers that with the
+      ILLink descriptor that keeps the assembly whole - and this program is the proof the answer
+      works, which is exactly why silencing the warning here is not the same as ignoring it.
+    -->
+    <NoWarn>$(NoWarn);IL2026;IL3050</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Querio\Querio.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The corpus travels inside the binary, so the published probe needs nothing beside it. -->
+    <EmbeddedResource Include="..\Querio.Tests\Corpus\*.json" LogicalName="corpus.%(Filename).json" />
+  </ItemGroup>
+
+</Project>

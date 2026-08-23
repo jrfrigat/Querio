@@ -15,5 +15,6 @@
     <Project Path="tests/Querio.Renderers.Tests/Querio.Renderers.Tests.csproj" />
     <Project Path="tests/Querio.Sql.IntegrationTests/Querio.Sql.IntegrationTests.csproj" />
     <Project Path="tests/Querio.Benchmarks/Querio.Benchmarks.csproj" />
+    <Project Path="tests/Querio.TrimmingProbe/Querio.TrimmingProbe.csproj" />
   </Folder>
 </Solution>

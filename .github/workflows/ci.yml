@@ -109,6 +109,33 @@ jobs:
           path: '**/*.trx'
           if-no-files-found: ignore
 
+  # A saved query is the contract that outlives every release, and the one place it silently stops
+  # being readable is a trimmed publish: the trimmer strips the constructor parameter names a
+  # serializer matches on, and nothing about that breaks a build, a test or a Debug run. So the
+  # corpus is read back from inside a real trimmed publish, by both routes a consumer can take.
+  trimming:
+    name: Read a saved query from a trimmed publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # MinVer needs full history/tags to compute the version
+
+      - name: Setup .NET (8 / 9 / 10)
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Publish trimmed
+        run: dotnet publish tests/Querio.TrimmingProbe -c Release -r linux-x64 --self-contained -o artifacts/trimprobe
+
+      - name: Read the corpus back
+        run: ./artifacts/trimprobe/Querio.TrimmingProbe
+
   # The icon is generated from assets/logo.svg rather than committed blind. If the two drift, the
   # package ships a mark nobody drew - so the drift is caught here instead of on nuget.org.
   icon-is-current:
