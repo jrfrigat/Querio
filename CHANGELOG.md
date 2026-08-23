@@ -44,6 +44,12 @@ disk, SQL executed against real engines, and a trimmed publish that reads a save
 These narrow what a builder is offered. A query that was already being built unchanged still renders
 unchanged; what changes is that the three combinations above are no longer suggested.
 
+- `QueryFunctionLibrary.Empty` was a single shared instance of a mutable type. `Register` mutates the
+  library and returns it so calls chain, which makes `QueryFunctionLibrary.Empty.Register(...)` the
+  obvious thing to write - and that registration then outlived the caller and reached every query in
+  the process that passed no library of its own. Silent, and order-dependent. `Empty` now hands back
+  a fresh library each time, so registering into it reaches nothing but itself.
+
 ### Documentation
 
 - `docs/en/trimming.md` - publishing trimmed needs one property or one attribute, for a reason that

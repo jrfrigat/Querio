@@ -27,8 +27,18 @@ public sealed class QueryFunctionLibrary
     private readonly Dictionary<string, Func<IReadOnlyList<object?>, QueryTableResult>> _tables =
         new(StringComparer.OrdinalIgnoreCase);
 
-    /// <summary>A library with nothing registered, for queries that call no functions.</summary>
-    public static QueryFunctionLibrary Empty { get; } = new();
+    /// <summary>
+    /// A library with nothing registered, for queries that call no functions.
+    /// <para>
+    /// A fresh one on every read, deliberately. <see cref="Register(string, LambdaExpression)"/>
+    /// mutates the library and returns it so calls can be chained, so a single shared instance behind
+    /// this name would make <c>QueryFunctionLibrary.Empty.Register(...)</c> - the obvious thing to
+    /// write - register into everybody's library for the rest of the process, including callers who
+    /// passed no library at all. That failure is silent, and it is order-dependent, which is the
+    /// worst combination to debug.
+    /// </para>
+    /// </summary>
+    public static QueryFunctionLibrary Empty => new();
 
     /// <summary>
     /// Registers a value function as an expression the renderer inlines into the query it builds.

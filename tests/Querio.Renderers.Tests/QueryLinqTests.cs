@@ -273,6 +273,23 @@ public sealed class QueryLinqTests
     }
 
     [Fact]
+    public void RegisteringIntoTheEmptyLibraryCannotReachAnybodyElsesQuery()
+    {
+        // Register mutates and returns itself so calls chain, which makes Empty.Register(...) the
+        // obvious thing to write. While Empty was one shared instance that registration outlived the
+        // caller and reached every query in the process that passed no library of its own - silently,
+        // and depending on which test ran first. The guard is here rather than in a comment because
+        // the failure it prevents was found by CI and not by a developer.
+        QueryFunctionLibrary.Empty.Register<string, string>("upper", text => text.ToUpperInvariant());
+
+        var spec = QueryBuilder.From(Schema, "users", "u")
+            .SelectCall(QueryFunctionCall.OfFields("upper", "u", "name"), "name")
+            .Build();
+
+        Assert.Throws<QueryRenderException>(() => Run(spec));
+    }
+
+    [Fact]
     public void DrawsRowsFromATableFunctionAsThoughItWereAnEntity()
     {
         var functions = new QueryFunctionLibrary()

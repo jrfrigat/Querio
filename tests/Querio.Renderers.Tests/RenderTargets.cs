@@ -123,8 +123,10 @@ internal static class RenderTargets
         .Add("orders", Array.Empty<OrderRow>())
         .Add("orderLines", Array.Empty<OrderLineRow>());
 
-    // Likewise every declared function, for the same reason.
-    private static QueryFunctionLibrary Functions() => QueryFunctionLibrary.Empty
+    // Likewise every declared function, for the same reason. A library of its own rather than
+    // QueryFunctionLibrary.Empty: registering is a mutation, and this is not the place to find out
+    // whose library it landed in.
+    private static QueryFunctionLibrary Functions() => new QueryFunctionLibrary()
         .Register<int, int>("calcTax", amount => amount * 2)
         .Register<string, string>("upper", text => text.ToUpperInvariant())
         .RegisterTable<ActiveUserRow>("activeUsers", _ => []);
