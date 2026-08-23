@@ -12,6 +12,13 @@ namespace Querio.Linq;
 /// <c>decimal</c> or a nullable of any of them. Everything that reconciles the two lives here, so
 /// the renderer can stay about meaning rather than about conversions.
 /// </para>
+/// <para>
+/// It is public because the extension point needs it: a caller registering a function through
+/// <see cref="QueryFunctionLibrary.Register(string, System.Func{System.Collections.Generic.IReadOnlyList{Expression}, Expression})"/>
+/// builds an expression from arguments whose CLR types it did not choose, and
+/// <see cref="Align(Expression, Expression)"/> and <see cref="Coerce"/> are how it makes them agree.
+/// Everything else here is the same job the renderer does, exposed for the same reason.
+/// </para>
 /// </summary>
 public static class QueryClrValue
 {
