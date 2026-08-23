@@ -33,6 +33,10 @@
          Nothing here drives VSTest any more, so nothing here is a VSTest package. -->
     <PackageVersion Include="xunit.v3" Version="4.0.0" />
     <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.3.3" />
+    <!-- tests/Querio.Benchmarks only. Timing a renderer by hand measures the JIT warming up as much
+         as the code, so the numbers this repo records come from a harness that knows the difference.
+         Nothing shipped references it, and QuerioIndependenceTests proves that rather than assuming. -->
+    <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
   </ItemGroup>
 
 </Project>
