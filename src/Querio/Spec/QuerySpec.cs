@@ -14,7 +14,7 @@ namespace Querio;
 /// <para>
 /// Write enums by name - a stored query holding <c>2</c> for an operator changes meaning the day a
 /// value is inserted into the middle of the enum. Publishing trimmed needs one extra setting, for a
-/// reason that belongs to the .NET SDK rather than to Querio: see <c>docs/trimming.md</c>.
+/// reason that belongs to the .NET SDK rather than to Querio: see <c>docs/en/trimming.md</c>.
 /// </para>
 /// <para>
 /// Beware that the collection members compare by reference under the synthesized record equality, so

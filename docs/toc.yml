@@ -8,6 +8,8 @@
       href: en/query-language.md
     - name: Targets
       href: en/targets.md
+    - name: Publishing trimmed
+      href: en/trimming.md
     - name: Working with AI agents
       href: en/ai-agents.md
 - name: Русский
@@ -20,5 +22,7 @@
       href: ru/query-language.md
     - name: Цели
       href: ru/targets.md
+    - name: Публикация с триммингом
+      href: ru/trimming.md
     - name: Работа с ИИ-агентами
       href: ru/ai-agents.md

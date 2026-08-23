@@ -19,7 +19,7 @@
       thing from the trimmer removing metadata: without this switch the serializer refuses before it
       ever looks at a type. A consumer publishing trimmed has to set this too, or use the source
       generator - and this probe proves BOTH routes work, because both are routes consumers take.
-      Documented for them in docs/trimming.md.
+      Documented for them in docs/en/trimming.md.
     -->
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
     <!--

@@ -46,7 +46,7 @@ unchanged; what changes is that the three combinations above are no longer sugge
 
 ### Documentation
 
-- `docs/trimming.md` - publishing trimmed needs one property or one attribute, for a reason that
+- `docs/en/trimming.md` - publishing trimmed needs one property or one attribute, for a reason that
   belongs to the .NET SDK rather than to Querio: `PublishTrimmed` disables `System.Text.Json`'s
   reflection path outright. Both routes are documented and both are proven in CI.
 - `docs/benchmarks.md` - what rendering costs, measured. Every text target renders a realistic saved
@@ -111,5 +111,6 @@ and returns the partial query alongside, so an editor stays useful while the tex
   publish would otherwise strip the constructor parameter names a serializer matches on, and a
   saved query would stop being readable - a failure that only appears in a Release publish.
 
-[Unreleased]: https://github.com/jrfrigat/Querio/compare/v0.0.1...HEAD
+[Unreleased]: https://github.com/jrfrigat/Querio/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/jrfrigat/Querio/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/jrfrigat/Querio/releases/tag/v0.0.1

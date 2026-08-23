@@ -39,7 +39,7 @@ stripping constructor parameter names, which the shipped ILLink descriptor preve
 first failure was different: `PublishTrimmed` disables `System.Text.Json`'s reflection path outright,
 before it looks at any type, so a trimmed consumer gets `InvalidOperationException` regardless of the
 descriptor. That is a deployment constraint consumers have to know about, so it is documented in
-`docs/trimming.md` and pointed at from `QuerySpec`. `tests/Querio.TrimmingProbe` now publishes
+`docs/en/trimming.md` and pointed at from `QuerySpec`. `tests/Querio.TrimmingProbe` now publishes
 trimmed and self-contained, carries the corpus inside the binary, and reads every document back by
 **both** routes a consumer can take - reflection and the source generator. CI runs it.
 
