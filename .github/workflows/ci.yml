@@ -41,8 +41,12 @@ jobs:
       - name: Build (Release)
         run: dotnet build Querio.slnx -c Release --no-restore
 
+      # xunit.v3 4.x runs on Microsoft.Testing.Platform, and the .NET 10 SDK removed the VSTest
+      # bridge that "--logger trx" went through; global.json opts dotnet test into MTP instead.
+      # The TRX filename is left at its default: both projects report into the same TestResults/,
+      # so a fixed name means the second run silently overwrites the first.
       - name: Test
-        run: dotnet test Querio.slnx -c Release --no-build --logger "trx;LogFileName=test-results.trx"
+        run: dotnet test Querio.slnx -c Release --no-build --report-trx
 
       - name: Upload test results
         if: always()
