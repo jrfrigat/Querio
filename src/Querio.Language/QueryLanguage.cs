@@ -24,6 +24,12 @@ namespace Querio.Language;
 public static class QueryLanguage
 {
     /// <summary>
+    /// Anything a query can express can be written down, so nothing is refused. Exposed so a builder
+    /// can narrow <see cref="QueryChoices"/> to this target the same way it does for every other one.
+    /// </summary>
+    public static IQueryCapabilities Capabilities => QueryLanguageWriter.Capabilities;
+
+    /// <summary>
     /// Reads query text, reporting everything wrong with it rather than stopping at the first
     /// fault, and returning whatever query could be made from the rest.
     /// </summary>
