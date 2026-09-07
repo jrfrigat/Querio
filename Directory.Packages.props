@@ -32,7 +32,7 @@
          uploads no test results. Keep it on the MTP version the platform itself resolves to.
          Nothing here drives VSTest any more, so nothing here is a VSTest package. -->
     <PackageVersion Include="xunit.v3" Version="4.0.0" />
-    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.3.3" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.4.0" />
     <!-- tests/Querio.Benchmarks only. Timing a renderer by hand measures the JIT warming up as much
          as the code, so the numbers this repo records come from a harness that knows the difference.
          Nothing shipped references it, and QuerioIndependenceTests proves that rather than assuming. -->
@@ -47,8 +47,8 @@
     <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.11" />
     <PackageVersion Include="Npgsql" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.0.2" />
-    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.14.0" />
-    <PackageVersion Include="Testcontainers.MsSql" Version="4.14.0" />
+    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.15.0" />
+    <PackageVersion Include="Testcontainers.MsSql" Version="4.15.0" />
   </ItemGroup>
 
 </Project>
