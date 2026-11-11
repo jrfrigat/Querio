@@ -83,6 +83,16 @@ generator - and returns a failing exit code if any document does not survive.
 The `trimming` job in CI publishes and runs it on every push. Unit tests assert the ILLink descriptor
 is present; this asserts it does its job, which is a different question and the one that matters.
 
+## Native AOT
+
+Querio and its renderers are marked AOT-compatible: their own code does no reflection, so a NativeAOT
+application can use them without warnings. `Querio.Linq` is deliberately outside that promise - it
+builds expression trees from types it meets at run time, which neither the trimmer nor the AOT
+compiler can see.
+
+Answer A above does not work under Native AOT: that runtime has no reflection-based
+`System.Text.Json` at all. Use Answer B, the source generator, which is the only route AOT accepts.
+
 ## Enums, and why they are written by name
 
 Both examples above configure enums as strings. That is not decoration: a stored query that wrote

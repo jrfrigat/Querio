@@ -129,7 +129,16 @@ public sealed class QueryCapabilities : IQueryCapabilities
 
     /// <summary>A set in which everything is supported, as a starting point to subtract from.</summary>
     public static QueryCapabilities All
-        => new(Enum.GetValues(typeof(QueryFeature)).Cast<QueryFeature>());
+        => new(AllFeatures);
+
+    // The generic overload is the one NativeAOT can prove; it does not exist on netstandard2.0,
+    // whose build carries no AOT analyzer and can keep the reflective call.
+    private static IEnumerable<QueryFeature> AllFeatures =>
+#if NETSTANDARD2_0
+        Enum.GetValues(typeof(QueryFeature)).Cast<QueryFeature>();
+#else
+        Enum.GetValues<QueryFeature>();
+#endif
 
     /// <summary>Returns a copy of this set with the given features removed.</summary>
     /// <param name="features">The features the target cannot do.</param>

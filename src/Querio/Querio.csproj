@@ -14,7 +14,9 @@
     <RootNamespace>Querio</RootNamespace>
     <Description>A database- and ORM-agnostic relational query model: an entity/field/foreign-key schema, a serializable query AST (joins, aggregates, grouping, having, sorting, paging) and a fluent builder. Values travel as data and no SQL text is ever emitted, so every backend renders the same query in its own dialect.</Description>
     <PackageTags>query;query-builder;sql;ast;relational;dotnet</PackageTags>
-    <IsTrimmable Condition="'$(TargetFramework)' != 'netstandard2.0'">true</IsTrimmable>
+    <!-- AOT and trimming are the same promise here: the core does no reflection of its own. The
+         descriptor below is what keeps the model reachable for a serializer. -->
+    <IsAotCompatible Condition="'$(TargetFramework)' != 'netstandard2.0'">true</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">

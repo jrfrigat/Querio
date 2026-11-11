@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Querio;
@@ -48,7 +49,14 @@ internal static class Program
             return 2;
         }
 
-        var failures = Check("reflection", documents, Reflection) + Check("source generator", documents, Generated);
+        // NativeAOT has no reflection-based System.Text.Json at all, so only the generated route is
+        // checked there. The same binary then proves both publishes: trimmed and native.
+        var reflectionRoute = RuntimeFeature.IsDynamicCodeSupported;
+        var failures = Check("source generator", documents, Generated);
+        if (reflectionRoute)
+        {
+            failures += Check("reflection", documents, Reflection);
+        }
 
         if (failures > 0)
         {
@@ -59,9 +67,11 @@ internal static class Program
             return 1;
         }
 
-        Console.WriteLine(
-            $"All {documents.Count} corpus documents round-tripped inside a trimmed publish, "
-            + "by reflection and by the source generator.");
+        Console.WriteLine(reflectionRoute
+            ? $"All {documents.Count} corpus documents round-tripped inside a trimmed publish, "
+                + "by reflection and by the source generator."
+            : $"All {documents.Count} corpus documents round-tripped inside a NativeAOT publish, "
+                + "by the source generator.");
         return 0;
     }
 

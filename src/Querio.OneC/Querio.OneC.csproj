@@ -13,7 +13,7 @@
     <RootNamespace>Querio.OneC</RootNamespace>
     <Description>Renders a Querio query into the 1C:Enterprise query language, with parameters rather than inlined values. Declares the narrower capability set 1C has, so a query asking for a row offset or a percentile is refused instead of quietly answering something else.</Description>
     <PackageTags>query;1c;onec;query-builder;dotnet</PackageTags>
-    <IsTrimmable Condition="'$(TargetFramework)' != 'netstandard2.0'">true</IsTrimmable>
+    <IsAotCompatible Condition="'$(TargetFramework)' != 'netstandard2.0'">true</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>

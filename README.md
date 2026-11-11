@@ -211,9 +211,11 @@ directly. Dapper needs none either - it takes the text and parameters `Querio.Sq
 
 ## Target frameworks
 
-`netstandard2.0`, `net8.0`, `net9.0`, `net10.0`. The reach back to netstandard2.0 is deliberate: a
-saved query is a contract, and the thing reading it may be an old service nobody intends to
-retarget.
+`netstandard2.0`, `net8.0`, `net9.0`, `net10.0`, `net11.0`. The reach back to netstandard2.0 is
+deliberate: a saved query is a contract, and the thing reading it may be an old service nobody
+intends to retarget. Every package except `Querio.Linq` is marked AOT-compatible, so a NativeAOT
+application can use it; `Querio.Linq` builds expressions from run-time types and says so instead of
+pretending.
 
 ---
 

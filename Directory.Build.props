@@ -17,7 +17,7 @@
       <TargetFrameworks>$(QuerioLibTargetFrameworks)</TargetFrameworks> (plural) and clear the
       inherited singular <TargetFramework> below; tests keep the single net10.0 default.
     -->
-    <QuerioLibTargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</QuerioLibTargetFrameworks>
+    <QuerioLibTargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0;net11.0</QuerioLibTargetFrameworks>
     <TargetFramework>net10.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>

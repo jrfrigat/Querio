@@ -13,7 +13,7 @@
     <RootNamespace>Querio.Language</RootNamespace>
     <Description>Reads and writes Querio queries as SQL-shaped text, with foreign-key navigation and completion candidates for an editor. Reports every problem it finds with a position, rather than stopping at the first.</Description>
     <PackageTags>query;sql;parser;completion;editor;dotnet</PackageTags>
-    <IsTrimmable Condition="'$(TargetFramework)' != 'netstandard2.0'">true</IsTrimmable>
+    <IsAotCompatible Condition="'$(TargetFramework)' != 'netstandard2.0'">true</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>

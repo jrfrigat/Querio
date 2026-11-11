@@ -12,8 +12,10 @@
     <RootNamespace>Querio.Linq</RootNamespace>
     <Description>Executes a Querio query as .NET code. Builds expression trees rather than query text, so a saved query can filter an IQueryable through any LINQ provider or run directly over in-memory objects.</Description>
     <PackageTags>query;linq;expression;iqueryable;dotnet</PackageTags>
-    <!-- Expression trees are built from types discovered at run time, so trimming cannot see them. -->
+    <!-- Expression trees are built from types discovered at run time, so neither the trimmer nor the
+         AOT compiler can see them. This package is honest about that instead of pretending. -->
     <IsTrimmable>false</IsTrimmable>
+    <IsAotCompatible>false</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>
