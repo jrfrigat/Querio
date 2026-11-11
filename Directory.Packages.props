@@ -15,24 +15,27 @@
   -->
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <!-- Lets a PackageVersion below lift a transitive dependency the direct packages cannot move on
+         their own; used for the SqlClient graph, see System.Security.Cryptography.Pkcs. -->
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
 
   <!-- Build/versioning/pack tooling needed by every project. GlobalPackageReference implies
        PrivateAssets="all", so none of it reaches a consumer. -->
   <ItemGroup>
     <GlobalPackageReference Include="MinVer" Version="8.0.0" />
-    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.401" />
+    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="11.0.100" />
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Test stack (tests/Querio.*.Tests). xunit.v3 4.0.0 makes the test projects
+    <!-- Test stack (tests/Querio.*.Tests). xunit.v3 4.x makes the test projects
          Microsoft.Testing.Platform applications, which global.json selects as the "dotnet test"
          runner. Under MTP a TRX report is an opt-in extension rather than a built-in logger, so it
          takes a package: without it the report flag in ci.yml is just an unknown option and CI
          uploads no test results. Keep it on the MTP version the platform itself resolves to.
          Nothing here drives VSTest any more, so nothing here is a VSTest package. -->
-    <PackageVersion Include="xunit.v3" Version="4.0.1" />
-    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.4.1" />
+    <PackageVersion Include="xunit.v3" Version="4.0.3" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.5.3" />
     <!-- tests/Querio.Benchmarks only. Timing a renderer by hand measures the JIT warming up as much
          as the code, so the numbers this repo records come from a harness that knows the difference.
          Nothing shipped references it, and QuerioIndependenceTests proves that rather than assuming. -->
@@ -44,11 +47,14 @@
          cannot tell a query a server accepts from one it rejects, nor either from one it accepts and
          reads differently. These run the text. Drivers and containers are the cost of finding that
          out here rather than in somebody's production. -->
-    <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="11.0.0" />
     <PackageVersion Include="Npgsql" Version="10.0.3" />
-    <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.1.0" />
-    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.15.0" />
-    <PackageVersion Include="Testcontainers.MsSql" Version="4.15.0" />
+    <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.1.1" />
+    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.16.0" />
+    <PackageVersion Include="Testcontainers.MsSql" Version="4.16.0" />
+    <!-- Microsoft.Data.SqlClient pulls 9.0.18 transitively. CVE-2026-84008 and CVE-2026-70162
+         cover 9.0.0-9.0.20, so the graph is pinned to the patched 9.0.23. -->
+    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="9.0.23" />
   </ItemGroup>
 
 </Project>
