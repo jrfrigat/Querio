@@ -25,15 +25,17 @@ jobs:
         with:
           fetch-depth: 0   # MinVer needs full history/tags to compute the version
 
-      # The libraries multi-target netstandard2.0/net8/net9/net10. netstandard2.0 needs no runtime of
-      # its own, but net8 and net9 do, so all three SDKs are installed; the newest drives the build.
-      - name: Setup .NET (8 / 9 / 10)
+      # The libraries multi-target netstandard2.0/net8/net9/net10/net11. netstandard2.0 needs no
+      # runtime of its own, but every other TFM does, so all four SDKs are installed; the newest
+      # drives the build.
+      - name: Setup .NET (8 / 9 / 10 / 11)
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             8.0.x
             9.0.x
             10.0.x
+            11.0.x
 
       - name: Restore
         run: dotnet restore Querio.slnx
@@ -80,13 +82,14 @@ jobs:
         with:
           fetch-depth: 0   # MinVer needs full history/tags to compute the version
 
-      - name: Setup .NET (8 / 9 / 10)
+      - name: Setup .NET (8 / 9 / 10 / 11)
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             8.0.x
             9.0.x
             10.0.x
+            11.0.x
 
       - name: Restore
         run: dotnet restore Querio.slnx
@@ -122,19 +125,45 @@ jobs:
         with:
           fetch-depth: 0   # MinVer needs full history/tags to compute the version
 
-      - name: Setup .NET (8 / 9 / 10)
+      - name: Setup .NET (11)
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
-            8.0.x
-            9.0.x
-            10.0.x
+            11.0.x
 
       - name: Publish trimmed
         run: dotnet publish tests/Querio.TrimmingProbe -c Release -r linux-x64 --self-contained -o artifacts/trimprobe
 
       - name: Read the corpus back
         run: ./artifacts/trimprobe/Querio.TrimmingProbe
+
+  # The trimmer keeps the model readable; NativeAOT also has to compile it, and there the reflection
+  # route does not exist at all. The same probe notices that and checks the source-generated route.
+  aot:
+    name: Read a saved query from a NativeAOT publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # MinVer needs full history/tags to compute the version
+
+      - name: Setup .NET (11)
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            11.0.x
+
+      # The NativeAOT build needs clang and zlib; the runner image has them, but naming them makes
+      # the job independent of the image.
+      - name: Install the AOT toolchain
+        run: sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
+
+      - name: Publish native
+        run: dotnet publish tests/Querio.TrimmingProbe -c Release -r linux-x64 -p:AotProbe=true -o artifacts/aotprobe
+
+      - name: Read the corpus back
+        run: ./artifacts/aotprobe/Querio.TrimmingProbe
 
   # The icon is generated from assets/logo.svg rather than committed blind. If the two drift, the
   # package ships a mark nobody drew - so the drift is caught here instead of on nuget.org.

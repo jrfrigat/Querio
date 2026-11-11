@@ -178,7 +178,15 @@ public sealed class QueryChoices
         {
             if (!Capabilities.Supports(QueryFeature.DateTruncation)) return [];
 
-            var periods = Enum.GetValues(typeof(QueryDateTruncation)).Cast<QueryDateTruncation>();
+            // The generic overload is the one NativeAOT can prove: the non-generic call needs an
+            // array type the runtime may not be able to create. That overload does not exist on
+            // netstandard2.0, whose build carries no AOT analyzer and can keep the reflective call.
+            IEnumerable<QueryDateTruncation> periods =
+#if NETSTANDARD2_0
+                Enum.GetValues(typeof(QueryDateTruncation)).Cast<QueryDateTruncation>();
+#else
+                Enum.GetValues<QueryDateTruncation>();
+#endif
             // An engine can have a month and no quarter, so the coarse flag is not the last word.
             if (Capabilities is IQueryPeriodCapabilities detail)
             {

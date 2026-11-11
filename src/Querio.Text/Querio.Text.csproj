@@ -12,7 +12,7 @@
     <RootNamespace>Querio.Text</RootNamespace>
     <Description>Describes a Querio query in words. Turns a query specification into a readable sentence for report titles, audit entries and accessible summaries, with every connective swappable so the description can be translated.</Description>
     <PackageTags>query;description;readable;localization;dotnet</PackageTags>
-    <IsTrimmable Condition="'$(TargetFramework)' != 'netstandard2.0'">true</IsTrimmable>
+    <IsAotCompatible Condition="'$(TargetFramework)' != 'netstandard2.0'">true</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>

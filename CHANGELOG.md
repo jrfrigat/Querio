@@ -7,7 +7,29 @@ patch.
 
 The version comes from the git tag: MinVer reads `vX.Y.Z` and packs that. Tagging is the release.
 
-## [Unreleased]
+## [0.2.0] - 2026-11-11
+
+The platform release. The model itself does not change; what changes is where it can run.
+
+### Added
+
+- `net11.0` is a target of every package, next to `netstandard2.0`, `net8.0`, `net9.0` and
+  `net10.0`. A .NET 11 application now gets an assembly built for its own runtime instead of the
+  net10.0 one.
+- Every package except `Querio.Linq` is marked AOT-compatible. The two `Enum.GetValues(Type)` calls
+  in `QueryChoices.Periods` and `QueryCapabilities.All` became the generic `Enum.GetValues<T>()`,
+  the overload NativeAOT can prove, so a NativeAOT application using the model compiles without
+  dynamic-code warnings.
+- `tests/Querio.TrimmingProbe` targets net11.0 and reads the corpus back from a NativeAOT publish as
+  well as a trimmed one; CI runs the native publish on every push. Under NativeAOT the reflection
+  JSON route is skipped, because that runtime has none, and the source-generated route is checked in
+  both publishes.
+- The trimming guide gained a NativeAOT section in English and Russian.
+
+### Changed
+
+- `README.md` and `README.ru.md` list the target frameworks and state the AOT promise. `Querio.Linq`
+  is called out as outside it: it builds expression trees from types known only at run time.
 
 ## [0.1.0] - 2026-08-23
 

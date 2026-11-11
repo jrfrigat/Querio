@@ -1,7 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <!-- On the newest shipped TFM: the probe must test the asset a current consumer actually gets. -->
+    <TargetFramework>net11.0</TargetFramework>
+    <!--
+      AOT is switched on by AotProbe rather than by passing PublishAot globally. A global property
+      flows into every referenced project, and Querio multi-targets netstandard2.0, which refuses
+      AOT (NETSDK1207) before the probe is ever reached. The CI job passes -p:AotProbe=true.
+    -->
+    <PublishAot Condition="'$(AotProbe)' == 'true'">true</PublishAot>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <!--
@@ -19,9 +26,10 @@
       thing from the trimmer removing metadata: without this switch the serializer refuses before it
       ever looks at a type. A consumer publishing trimmed has to set this too, or use the source
       generator - and this probe proves BOTH routes work, because both are routes consumers take.
-      Documented for them in docs/en/trimming.md.
+      Documented for them in docs/en/trimming.md. NativeAOT has no reflection path to switch on, so
+      the same project published with PublishAot checks the generated route only.
     -->
-    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+    <JsonSerializerIsReflectionEnabledByDefault Condition="'$(PublishAot)' != 'true'">true</JsonSerializerIsReflectionEnabledByDefault>
     <!--
       IL2026/IL3050: System.Text.Json's reflection-based path is not statically analysable, and the
       analyser is right that it cannot see how the model is reached. Querio answers that with the
